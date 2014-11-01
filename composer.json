@@ -21,6 +21,6 @@
 		"edgedesign/ares": "v0.1.1"
 	},
 	"autoload": {
-		"classmap": ["src/Validatioon"]
+		"classmap": ["src/Validation"]
 	}
 }
