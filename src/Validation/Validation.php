@@ -8,7 +8,8 @@
 
 namespace Trejjam;
 
-use Nette\Caching;
+use Nette,
+	Nette\Caching;
 
 class Validation
 {
@@ -17,8 +18,14 @@ class Validation
 	 */
 	private $cache;
 
-	public function __construct(Caching\Cache $cache) {
+	private $timeout;
+
+	public function __construct(Caching\Cache $cache = NULL) {
 		$this->cache=$cache;
+	}
+
+	public function setTimeout($timeout) {
+		$this->timeout= $timeout;
 	}
 
 	/**
@@ -112,7 +119,7 @@ class Validation
 			/** @var \Edge\Ares\Container\Address $address */
 			$address = $ares->fetchSubjectAddress($ic);
 
-			$out=[
+			$out=(object)[
 				"ico"=>$address->getIco(),
 				"dic"=>$address->getDic(),
 				"firma"=>$address->getFirma(),
@@ -134,13 +141,20 @@ class Validation
 		return $out;
 	}
 
-	private function setCacheIc($ic, array $address) {
+	private function useCache() {
+		return !is_null($this->cache);
+	}
+	private function setCacheIc($ic, \stdClass $address) {
+		if (!$this->useCache()) return;
+
 		$this->cache->save($ic, json_encode($address), [
 			Caching\Cache::TAGS   => ["ico"],
-			Caching\Cache::EXPIRE => '60 minutes',
+			Caching\Cache::EXPIRE => $this->timeout,
 		]);
 	}
 	private function getCacheIc($ic) {
+		if (!$this->useCache()) return null;
+
 		if (!is_null(
 			$out=$this->cache->load($ic)
 		)) {
