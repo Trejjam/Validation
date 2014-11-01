@@ -2,8 +2,10 @@ Validation
 ==========
 
 Validation of user data
-offline IČ, RČ
-online IČ over ARES, cached by Nette/Cache
+<ul>
+<li>offline IČ, RČ
+<li>online IČ over ARES, cached by Nette/Cache
+</ul>
 
 Based on
 [JAK OVĚŘIT PLATNÉ IČ A RODNÉ ČÍSLO](http://phpfashion.com/jak-overit-platne-ic-a-rodne-cislo)
