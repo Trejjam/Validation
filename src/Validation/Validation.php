@@ -6,7 +6,7 @@
  * Time: 17:38
  */
 
-namespace Trejjam\NetteLibs;
+namespace Trejjam;
 
 use Nette\Caching;
 
