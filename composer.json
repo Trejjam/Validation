@@ -1,0 +1,28 @@
+{
+	"name": "trejjam/validation",
+	"description": "Validation IČ, RČ",
+	"keywords": [
+		"nette",
+		"ares"
+	],
+	"license": [
+		"BSD-3-Clause",
+		"GPL-2.0",
+		"GPL-3.0"
+	],
+	"authors": [
+		{
+			"name": "Jan Trejbal"
+		}
+	],
+	"require": {
+		"php": ">=5.3.1"
+	},
+	"require-dev": {
+		"nette/nette": "2.2.x-dev",
+		"edgedesign/ares": "v0.1.1"
+	},
+	"autoload": {
+		"classmap": ["src/Validatioon"]
+	}
+}
