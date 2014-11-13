@@ -12,7 +12,7 @@ use Nette;
 
 class ValidationExtension extends Nette\DI\CompilerExtension
 {
-	public $defaults = [
+	private $defaults = [
 		'cache' => [
 			"use"=>true,
 			"name"=> "ares",
@@ -25,19 +25,19 @@ class ValidationExtension extends Nette\DI\CompilerExtension
 		$builder = $this->getContainerBuilder();
 		$config = $this->getConfig($this->defaults);
 
-		$validation = $builder->addDefinition('validation')
+		$validation = $builder->addDefinition($this->prefix('validation'))
 							  ->setClass('Trejjam\Validation');
 		//$builder->addDefinition($this->prefix('validation'))
 
 		if ($config["cache"]["use"]) {
 			$builder->addDefinition($this->prefix("cache"))
-					->setClass('Nette\Caching\Cache')
+					->setFactory('Nette\Caching\Cache')
 					->setArguments(['@cacheStorage', $config["cache"]["name"]])
 					->setAutowired(FALSE);
 
 			$validation->setArguments([$this->prefix("@cache")])
 					   ->addSetup("setTimeout", ["timeout" => $config["cache"]["timeout"]]);
 		}
-		$validation->setInject(FALSE);
+		//$validation->setInject(FALSE);
 	}
 }

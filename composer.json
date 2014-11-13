@@ -18,6 +18,9 @@
 		"nette/nette": "2.2.*",
 		"edgedesign/ares": "v0.1.1"
 	},
+	"require-dev": {
+		"nette/tester": "@dev"
+	},
 	"autoload": {
 		"classmap": ["src/Validation"]
 	}

@@ -35,7 +35,7 @@ class Validation
 	function rc($rc) {
 		// "be liberal in what you receive"
 		if (!preg_match('#^\s*(\d\d)(\d\d)(\d\d)[ /]*(\d\d\d)(\d?)\s*$#', $rc, $matches)) {
-			return FALSE;
+			throw new \InvalidArgumentException("RČ has bad format");
 		}
 
 		list(, $year, $month, $day, $ext, $c) = $matches;
@@ -77,7 +77,7 @@ class Validation
 
 		// má požadovaný tvar?
 		if (!preg_match('#^\d{8}$#', $ic)) {
-			return FALSE;
+			throw new \InvalidArgumentException("IČ has bad format");
 		}
 
 		// kontrolní součet
