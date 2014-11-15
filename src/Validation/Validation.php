@@ -9,10 +9,16 @@
 namespace Trejjam;
 
 use Nette,
-	Nette\Caching;
+	Nette\Caching,
+	Tracy\Debugger;
 
-class Validation
+class Validation extends Nette\Object
 {
+	/** @var array of function(Validation $validation, ResultSet|Exception $result); Occurs after data load */
+	public $onAres;
+
+	private $panel;
+
 	/**
 	 * @var Caching\Cache
 	 */
@@ -22,6 +28,14 @@ class Validation
 
 	public function __construct(Caching\Cache $cache = NULL) {
 		$this->cache=$cache;
+	}
+
+	/**
+	 * @internal
+	 * @param ValidationPanel $panel
+	 */
+	public function injectPanel(ValidationPanel $panel) {
+		$this->panel = $panel->register($this);
 	}
 
 	public function setTimeout($timeout) {
@@ -115,6 +129,8 @@ class Validation
 		$ares = new \Edge\Ares\Ares($parser, $provider);
 
 		try {
+			Debugger::timer('ares-curl');
+
 			/** @var \Edge\Ares\Ares $ares */
 			/** @var \Edge\Ares\Container\Address $address */
 			$address = $ares->fetchSubjectAddress($ic);
@@ -131,10 +147,23 @@ class Validation
 				"psc"=>$address->getPsc(),
 			];
 
+			$this->onAres($this, [
+				"time"=> Debugger::timer('ares-curl'),
+				"ic"=>$ic,
+				"data"=>$out
+			]);
+
 			$this->setCacheIc($ic, $out);
 		}
 		catch (\Edge\Ares\Exception\ExceptionInterface $e) {
 			// Do some error handling here.
+
+			$this->onAres($this, [
+				"time" => Debugger::timer('ares-curl'),
+				"ic"   => $ic,
+				"exception" => $e
+			]);
+
 			return FALSE;
 		}
 

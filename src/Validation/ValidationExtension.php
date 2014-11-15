@@ -17,7 +17,8 @@ class ValidationExtension extends Nette\DI\CompilerExtension
 			"use"=>true,
 			"name"=> "ares",
 			"timeout"=> "60 minutes"
-		]
+		],
+		'debugger'=>true,
 	];
 
 
@@ -37,6 +38,15 @@ class ValidationExtension extends Nette\DI\CompilerExtension
 
 			$validation->setArguments([$this->prefix("@cache")])
 					   ->addSetup("setTimeout", ["timeout" => $config["cache"]["timeout"]]);
+		}
+
+		if ($config["debugger"]) {
+			$builder->addDefinition($this->prefix("panel"))
+					->setClass('Trejjam\ValidationPanel')
+					->setInject(FALSE)
+					->setAutowired(FALSE);
+
+			$validation->addSetup('injectPanel', array($this->prefix("@panel")));
 		}
 		//$validation->setInject(FALSE);
 	}

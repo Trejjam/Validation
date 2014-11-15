@@ -36,6 +36,7 @@ validation:
 		use: true #disable cache
 		name: ares #cache storage
 		timeout: 60 minutes #cache expire
+	debugger: true
 ```
 
 Usage

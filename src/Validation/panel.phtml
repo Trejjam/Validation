@@ -1,0 +1,47 @@
+<style>
+	#nette-debug .trejjam-validation-ares,
+	#tracy-debug .trejjam-validation-ares {
+		min-width: 700px;
+	}
+
+	#nette-debug .trejjam-validation-ares h2,
+	#tracy-debug .trejjam-validation-ares h2 {
+		font-size: 22px;
+		font-weight: bold;
+	}
+
+	#nette-debug .trejjam-validation-ares table,
+	#tracy-debug .trejjam-validation-ares table {
+		width: 100%;
+	}
+
+	#nette-debug .trejjam-validation-ares table th,
+	#tracy-debug .trejjam-validation-ares table th {
+		width: 80px;
+	}
+</style>
+<h1>Loaded ARES data: <?php echo $esc(count($this->messages)); ?></h1>
+<div class="nette-inner tracy-inner trejjam-validation-ares">
+	<?php foreach ($this->messages as $message): ?>
+		<table width="690">
+			<tr>
+				<th width="250">IČ:</th>
+				<td><code><?php echo $esc($message["ic"]); ?></code></td>
+			</tr>
+				<tr>
+				<th>Time:</th>
+				<td><?php echo $esc(sprintf('%0.1f ms', $message["time"] * 1000)); ?></td>
+				</tr>
+			<?php if (isset($message["data"])): ?>
+				<tr>
+				<th>Data:</th>
+				<td><?php echo $click($message["data"], TRUE); ?></td>
+				</tr><?php endif; ?>
+			<?php if (isset($message["exception"])): ?>
+				<tr>
+				<th>Exception:</th>
+				<td><?php echo $click($message["exception"], TRUE); ?></td>
+				</tr><?php endif; ?>
+		</table><br>
+	<?php endforeach; ?>
+</div>
