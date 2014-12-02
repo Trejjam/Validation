@@ -142,7 +142,7 @@ class Validation extends Nette\Object
 				"ulice"=>$address->getUlice(),
 				"cisloOrientacni"=>$address->getCisloOrientacni(),
 				"cisloPopisne"=>$address->getCisloPopisne(),
-				"cisloMesto"=>$address->getMesto(),
+				"mesto"=>$address->getMesto(),
 				"castObce"=>$address->getCastObce(),
 				"psc"=>$address->getPsc(),
 			];

@@ -67,7 +67,7 @@ class ValidationTest extends Tester\TestCase
 			'ulice'           => 'Stroupežnického',
 			'cisloOrientacni' => '17',
 			'cisloPopisne'    => '3191',
-			'cisloMesto'      => 'Praha',
+			'mesto'           => 'Praha',
 			'castObce'        => 'Smíchov',
 			'psc'             => '15000',
 		), $this->validation->aresIc("27604977"));
@@ -87,7 +87,7 @@ class ValidationTest extends Tester\TestCase
 			'ulice'           => 'Stroupežnického',
 			'cisloOrientacni' => '17',
 			'cisloPopisne'    => '3191',
-			'cisloMesto'      => 'Praha',
+			'mesto'           => 'Praha',
 			'castObce'        => 'Smíchov',
 			'psc'             => '15000',
 		), $validation->aresIc("27604977"));
