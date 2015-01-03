@@ -14,7 +14,7 @@ use Nette,
 
 class Validation extends Nette\Object
 {
-	/** @var array of function(Validation $validation, ResultSet|Exception $result); Occurs after data load */
+	/** @var array of function(Validation $validation, ResultSet|Exception $result); occurs after data load */
 	public $onAres;
 
 	private $panel;
@@ -113,7 +113,7 @@ class Validation extends Nette\Object
 	}
 	/**
 	 * @param $ic
-	 * @return bool|array
+	 * @return bool|\stdClass
 	 */
 	function aresIc($ic) {
 		if (!$this->ic($ic)) return false;
