@@ -28,8 +28,7 @@ class ValidationExtension extends Nette\DI\CompilerExtension
 		$config = $this->getConfig($this->defaults);
 
 		$validation = $builder->addDefinition($this->prefix('validation'))
-							  ->setClass('Trejjam\Validation');
-		//$builder->addDefinition($this->prefix('validation'))
+							  ->setClass('Trejjam\Validation\Validation');
 
 		if ($config["cache"]["use"]) {
 			$builder->addDefinition($this->prefix("cache"))
@@ -43,7 +42,7 @@ class ValidationExtension extends Nette\DI\CompilerExtension
 
 		if ($config["debugger"]) {
 			$builder->addDefinition($this->prefix("panel"))
-					->setClass('Trejjam\ValidationPanel')
+					->setClass('Trejjam\Validation\ValidationPanel')
 					->setInject(FALSE)
 					->setAutowired(FALSE);
 
