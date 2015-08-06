@@ -29,7 +29,7 @@ Configuration
 .neon
 ```yml
 extensions:
-	validation: Trejjam\DI\ValidationExtension
+	validation: Trejjam\Validation\DI\ValidationExtension
 
 validation:
 	cache:
