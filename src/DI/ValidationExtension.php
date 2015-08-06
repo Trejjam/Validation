@@ -6,23 +6,24 @@
  * Time: 17:38
  */
 
-namespace Trejjam\DI;
+namespace Trejjam\Validation\DI;
 
 use Nette;
 
 class ValidationExtension extends Nette\DI\CompilerExtension
 {
 	private $defaults = [
-		'cache' => [
-			"use"=>true,
-			"name"=> "ares",
-			"timeout"=> "60 minutes"
+		'cache'    => [
+			"use"     => TRUE,
+			"name"    => "ares",
+			"timeout" => "60 minutes",
 		],
-		'debugger'=>true,
+		'debugger' => TRUE,
 	];
 
 
-	public function loadConfiguration() {
+	public function loadConfiguration()
+	{
 		$builder = $this->getContainerBuilder();
 		$config = $this->getConfig($this->defaults);
 
@@ -48,6 +49,5 @@ class ValidationExtension extends Nette\DI\CompilerExtension
 
 			$validation->addSetup('injectPanel', array($this->prefix("@panel")));
 		}
-		//$validation->setInject(FALSE);
 	}
 }

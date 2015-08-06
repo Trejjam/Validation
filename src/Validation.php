@@ -6,7 +6,7 @@
  * Time: 17:38
  */
 
-namespace Trejjam;
+namespace Trejjam\Validation;
 
 use Nette,
 	Nette\Caching,
@@ -26,27 +26,31 @@ class Validation extends Nette\Object
 
 	private $timeout;
 
-	public function __construct(Caching\Cache $cache = NULL) {
-		$this->cache=$cache;
+	public function __construct(Caching\Cache $cache = NULL)
+	{
+		$this->cache = $cache;
 	}
 
 	/**
 	 * @internal
 	 * @param ValidationPanel $panel
 	 */
-	public function injectPanel(ValidationPanel $panel) {
+	public function injectPanel(ValidationPanel $panel)
+	{
 		$this->panel = $panel->register($this);
 	}
 
-	public function setTimeout($timeout) {
-		$this->timeout= $timeout;
+	public function setTimeout($timeout)
+	{
+		$this->timeout = $timeout;
 	}
 
 	/**
 	 * @param string $rc Rodné číslo
 	 * @return bool Je rodné číslo validní
 	 */
-	function rc($rc) {
+	function rc($rc)
+	{
 		// "be liberal in what you receive"
 		if (!preg_match('#^\s*(\d\d)(\d\d)(\d\d)[ /]*(\d\d\d)(\d?)\s*$#', $rc, $matches)) {
 			throw new \InvalidArgumentException("RČ has bad format");
@@ -85,7 +89,8 @@ class Validation extends Nette\Object
 	 * @param string $ic IČO
 	 * @return bool Je IČO validní
 	 */
-	function ic($ic) {
+	function ic($ic)
+	{
 		// "be liberal in what you receive"
 		$ic = preg_replace('#\s+#', '', $ic);
 
@@ -115,12 +120,14 @@ class Validation extends Nette\Object
 	 * @param $ic
 	 * @return bool|\stdClass
 	 */
-	function aresIc($ic) {
-		if (!$this->ic($ic)) return false;
+	function aresIc($ic)
+	{
+		if (!$this->ic($ic)) return FALSE;
 
 		if (!is_null(
-			$address=$this->getCacheIc($ic)
-		)) {
+			$address = $this->getCacheIc($ic)
+		)
+		) {
 			return $address;
 		}
 
@@ -135,22 +142,22 @@ class Validation extends Nette\Object
 			/** @var \Edge\Ares\Container\Address $address */
 			$address = $ares->fetchSubjectAddress($ic);
 
-			$out=(object)[
-				"ico"=>$address->getIco(),
-				"dic"=>$address->getDic(),
-				"firma"=>$address->getFirma(),
-				"ulice"=>$address->getUlice(),
-				"cisloOrientacni"=>$address->getCisloOrientacni(),
-				"cisloPopisne"=>$address->getCisloPopisne(),
-				"mesto"=>$address->getMesto(),
-				"castObce"=>$address->getCastObce(),
-				"psc"=>$address->getPsc(),
+			$out = (object)[
+				"ico"             => $address->getIco(),
+				"dic"             => $address->getDic(),
+				"firma"           => $address->getFirma(),
+				"ulice"           => $address->getUlice(),
+				"cisloOrientacni" => $address->getCisloOrientacni(),
+				"cisloPopisne"    => $address->getCisloPopisne(),
+				"mesto"           => $address->getMesto(),
+				"castObce"        => $address->getCastObce(),
+				"psc"             => $address->getPsc(),
 			];
 
 			$this->onAres($this, [
-				"time"=> Debugger::timer('ares-curl'),
-				"ic"=>$ic,
-				"data"=>$out
+				"time" => Debugger::timer('ares-curl'),
+				"ic"   => $ic,
+				"data" => $out
 			]);
 
 			$this->setCacheIc($ic, $out);
@@ -159,8 +166,8 @@ class Validation extends Nette\Object
 			// Do some error handling here.
 
 			$this->onAres($this, [
-				"time" => Debugger::timer('ares-curl'),
-				"ic"   => $ic,
+				"time"      => Debugger::timer('ares-curl'),
+				"ic"        => $ic,
 				"exception" => $e
 			]);
 
@@ -170,10 +177,12 @@ class Validation extends Nette\Object
 		return $out;
 	}
 
-	private function useCache() {
+	private function useCache()
+	{
 		return !is_null($this->cache);
 	}
-	private function setCacheIc($ic, \stdClass $address) {
+	private function setCacheIc($ic, \stdClass $address)
+	{
 		if (!$this->useCache()) return;
 
 		$this->cache->save($ic, json_encode($address), [
@@ -181,14 +190,17 @@ class Validation extends Nette\Object
 			Caching\Cache::EXPIRE => $this->timeout,
 		]);
 	}
-	private function getCacheIc($ic) {
-		if (!$this->useCache()) return null;
+	private function getCacheIc($ic)
+	{
+		if (!$this->useCache()) return NULL;
 
 		if (!is_null(
-			$out=$this->cache->load($ic)
-		)) {
+			$out = $this->cache->load($ic)
+		)
+		) {
 			return json_decode($out);
 		}
-		return null;
+
+		return NULL;
 	}
 }

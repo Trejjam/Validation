@@ -6,7 +6,7 @@
  * Time: 11:25
  */
 
-namespace Trejjam;
+namespace Trejjam\Validation;
 
 use Nette,
 	Tracy,
@@ -20,13 +20,14 @@ class ValidationPanel extends Nette\Object implements Tracy\IBarPanel
 	/** @var int logged time */
 	private $totalTime = 0;
 
-	private $messages=[];
+	private $messages = [];
 
 	/**
 	 * Renders HTML code for custom tab.
 	 * @return string
 	 */
-	function getTab() {
+	function getTab()
+	{
 		$img = Html::el('img', array(
 			'height' => '16px',
 			'src'    => 'data:image/png;base64,' . base64_encode(file_get_contents(__DIR__ . '/ares.png'))
@@ -34,7 +35,7 @@ class ValidationPanel extends Nette\Object implements Tracy\IBarPanel
 		$tab = Html::el('span', array('title' => 'ARES'))->add($img);
 		$title = Html::el()->setText('ARES');
 		if ($this->messages) {
-			$title->setText(count($this->messages) . ' load'. ($this->totalTime ? sprintf(' / %0.1f ms', $this->totalTime * 1000) : ''));
+			$title->setText(count($this->messages) . ' load' . ($this->totalTime ? sprintf(' / %0.1f ms', $this->totalTime * 1000) : ''));
 		}
 
 		return (string)$tab->add($title);
@@ -44,7 +45,8 @@ class ValidationPanel extends Nette\Object implements Tracy\IBarPanel
 	 * Renders HTML code for custom panel.
 	 * @return string
 	 */
-	function getPanel() {
+	function getPanel()
+	{
 		if (!$this->messages) {
 			return NULL;
 		}
@@ -60,16 +62,18 @@ class ValidationPanel extends Nette\Object implements Tracy\IBarPanel
 		return ob_get_clean();
 	}
 
-	public function logAres(Validation $validation, $result) {
-		$this->totalTime+=$result["time"];
-		$this->messages[]= $result;
+	public function logAres(Validation $validation, $result)
+	{
+		$this->totalTime += $result["time"];
+		$this->messages[] = $result;
 	}
 
 	/**
 	 * @param Validation $connection
 	 * @return ValidationPanel
 	 */
-	public function register(Validation $validation) {
+	public function register(Validation $validation)
+	{
 		$validation->onAres[] = array($this, 'logAres');
 
 		self::getDebuggerBar()->addPanel($this);
@@ -80,7 +84,8 @@ class ValidationPanel extends Nette\Object implements Tracy\IBarPanel
 	/**
 	 * @return Bar
 	 */
-	private static function getDebuggerBar() {
-		return method_exists('Tracy\Debugger', 'getBar') ? Debugger::getBar() : null;
+	private static function getDebuggerBar()
+	{
+		return method_exists('Tracy\Debugger', 'getBar') ? Debugger::getBar() : NULL;
 	}
 } 

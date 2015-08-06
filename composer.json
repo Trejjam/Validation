@@ -14,14 +14,24 @@
 		}
 	],
 	"require": {
-		"php": ">=5.3.1",
-		"nette/nette": "~2.2",
+		"php": ">=5.4",
+		"nette/nette": "~2.3",
 		"edgedesign/ares": "v0.1.1"
 	},
 	"require-dev": {
 		"nette/tester": "@dev"
 	},
 	"autoload": {
-		"classmap": ["src/Validation"]
+		"psr-4": {
+			"Trejjam\\Validation\\": "src/"
+		},
+		"classmap": [
+			"src/exceptions.php"
+		]
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "v0.6-dev"
+		}
 	}
 }

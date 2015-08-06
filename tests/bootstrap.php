@@ -13,11 +13,11 @@ $configurator = new Nette\Configurator;
 $configurator->setDebugMode(FALSE);
 $configurator->setTempDirectory(__DIR__ . '/../temp');
 $configurator->createRobotLoader()
-	->addDirectory(__DIR__ . '/../src')
-	->register();
+			 ->addDirectory(__DIR__ . '/../src')
+			 ->register();
 
 $configurator->onCompile[] = function ($configurator, \Nette\DI\Compiler $compiler) {
-	$ext = new \Trejjam\DI\ValidationExtension();
+	$ext = new Trejjam\Validation\DI\ValidationExtension();
 	$compiler->addExtension('validation', $ext);
 };
 

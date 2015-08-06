@@ -13,19 +13,22 @@ class ValidationTest extends Tester\TestCase
 {
 	private $container;
 	/**
-	 * @var \Trejjam\Validation
+	 * @var \Trejjam\Validation\Validation
 	 */
 	private $validation;
 
-	function __construct(Nette\DI\Container $container) {
+	function __construct(Nette\DI\Container $container)
+	{
 		$this->container = $container;
 	}
 
-	function setUp() {
+	function setUp()
+	{
 		$this->validation = $this->container->getService("validation.validation");
 	}
 
-	function testRc() {
+	function testRc()
+	{
 		Assert::true($this->validation->rc("780123/3540"));
 		Assert::true($this->validation->rc("7801233540"));
 		Assert::true($this->validation->rc("841027/4114"));
@@ -49,7 +52,8 @@ class ValidationTest extends Tester\TestCase
 		}, "InvalidArgumentException", "RČ has bad format");
 	}
 
-	function testIc() {
+	function testIc()
+	{
 		Assert::true($this->validation->ic("25596641"));
 		Assert::true($this->validation->ic("27604977"));
 
@@ -59,7 +63,8 @@ class ValidationTest extends Tester\TestCase
 			$this->validation->ic("780123/3540");
 		}, "InvalidArgumentException", "IČ has bad format");
 	}
-	function testAresIc() {
+	function testAresIc()
+	{
 		Assert::equal((object)array(
 			'ico'             => '27604977',
 			'dic'             => 'CZ27604977',
@@ -77,8 +82,9 @@ class ValidationTest extends Tester\TestCase
 		}, "InvalidArgumentException", "IČ has bad format");
 	}
 
-	function testAresIcNoCache() {
-		$validation=new \Trejjam\Validation();
+	function testAresIcNoCache()
+	{
+		$validation = new \Trejjam\Validation();
 
 		Assert::equal((object)array(
 			'ico'             => '27604977',
